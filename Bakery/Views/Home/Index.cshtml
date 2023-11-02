@@ -2,7 +2,38 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@using Bakery.Models;
+
+<h1>The Goodies</h1>
+
+<hr>
+
+<h4>Treats</h4>
+@if (Model.ContainsKey("treats") && Model["treats"].Count == 0)
+{
+  <p>No treats have been added yet!</p>
+} 
+<ul>
+  @foreach (Treat treat in Model["treats"])
+  {
+    <li>@Html.ActionLink(treat.Name, "Details", "Treats", new { id = treat.TreatId })
+    </li>
+  }
+</ul>
+
+<h4>Flavors</h4>
+@if (Model.ContainsKey("flavors") && Model["flavors"].Count == 0)
+{
+  <p>No flavors have been added yet!</p>
+} 
+<ul>
+  @foreach (Flavor flavor in Model["flavors"])
+  {
+    <li>@Html.ActionLink(flavor.Name, "Details", "Flavors", new { id = flavor.FlavorId })
+    </li>
+  }
+</ul>
+
+<hr>
+<p>@Html.ActionLink("See all Treats", "Index", "Treats")</p> 
+<p>@Html.ActionLink("See all Flavors", "Index", "Flavors")</p>
