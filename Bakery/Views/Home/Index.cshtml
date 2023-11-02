@@ -9,7 +9,7 @@
 <hr>
 
 <h4>Treats</h4>
-@if (Model.ContainsKey("treats") && Model["treats"].Count == 0)
+@if (Model["treats"].Length == 0)
 {
   <p>No treats have been added yet!</p>
 } 
@@ -22,7 +22,7 @@
 </ul>
 
 <h4>Flavors</h4>
-@if (Model.ContainsKey("flavors") && Model["flavors"].Count == 0)
+@if (Model["flavors"].Length == 0)
 {
   <p>No flavors have been added yet!</p>
 } 
