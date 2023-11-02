@@ -9,9 +9,9 @@ namespace Bakery.Controllers
 {
     public class TreatsController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly BakeryContext _db;
 
-        public TreatsController(ApplicationDbContext db)
+        public TreatsController(BakeryContext db)
         {
             _db = db;
         }
