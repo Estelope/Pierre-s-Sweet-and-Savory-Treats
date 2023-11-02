@@ -9,7 +9,7 @@ namespace Bakery.Models
         
         [Required(ErrorMessage = "Treat must have a name: please add a name.")]
         public string Name { get; set; }
-
+        public ApplicationUser User { get; set; }
         public List<FlavorTreat> FlavorTreats { get; set; }
     }
 }
