@@ -3,10 +3,14 @@
 }
 
 @using Bakery.Models;
-
-<h1>The Goodies</h1>
-
-<hr>
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>Welcome to Pierre's Bakery @User.Identity.Name!</h1>
+}
+else
+{
+    <h1>Welcome Pierre's Bakery!</h1>
+}
 
 <h4>Treats</h4>
 @if (Model["treats"].Length == 0)
