@@ -22,29 +22,36 @@ namespace Bakery.Controllers
         _db = db;
         }
 
-        public async Task<ActionResult> Index()
+         public async Task<ActionResult> Index()
         {
+    if (User.Identity.IsAuthenticated)
+    {
         string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-        List<Flavor> userFlavors = _db.Flavors
-                          .Where(entry => entry.User.Id == currentUser.Id)
-                // .Include(flavor => flavor.Treat)
-                          .ToList();
+
+        if (currentUser != null)
+        {
+            List<Flavor> userFlavors = _db.Flavors
+                .Where(entry => entry.User.Id == currentUser.Id)
+                .ToList();
             return View(userFlavors);
         }
+    }
+        List<Flavor> allFlavors = _db.Flavors.ToList();
+      return View(allFlavors);
+        }
 
-    
         public ActionResult Create()
         {
         return View();
         }
 
+        [Authorize]
         [HttpPost]
-    public async Task<ActionResult> Create(Flavor flavor, int TreatId)
+    public async Task<ActionResult> Create(Flavor flavor)
         {
       if (!ModelState.IsValid)
         {
-        ViewBag.FlavorId = new SelectList(_db.Flavors, "TreatId", "Name");
             return View(flavor);
         }
         else
@@ -82,15 +89,15 @@ namespace Bakery.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize]
             public ActionResult Delete(int id)
         {
         Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
         return View(thisFlavor);
         }
 
-
-          [HttpPost, ActionName("Delete")]
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
         {
         Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
